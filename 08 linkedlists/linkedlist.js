@@ -121,6 +121,23 @@ class LinkedList {
     return values;
   }
 
+  reverse() {
+    let current = this.tail;
+    while (current) {
+      let tmpPrev=  current.prev;
+      let tmpNext = current.next;
+
+      current.next=  current.prev;
+      current.prev = tmpNext;
+
+      current = tmpPrev;
+    }
+
+    var tmpTail = this.tail;
+    this.tail = this.head;
+    this.head = tmpTail;
+  }
+
   print() {
     let current = this.head;
     while (current) {
@@ -133,3 +150,16 @@ class LinkedList {
     }
   }
 }
+
+
+
+
+
+let lst = new LinkedList(null);
+lst.append(new LinkedListItem(3));
+lst.append(new LinkedListItem(4));
+lst.append(new LinkedListItem(5));
+lst.prepend(new LinkedListItem(1));
+lst.insert(1, new LinkedListItem(2));
+lst.reverse();
+console.log(lst.values());
