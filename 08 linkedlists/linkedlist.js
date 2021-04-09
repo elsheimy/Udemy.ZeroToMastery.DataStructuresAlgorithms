@@ -1,7 +1,8 @@
 class LinkedListItem {
   constructor(value, next) {
     this.value = value;
-    this.next = next;
+    this.next = null;
+    this.prev = null;
   }
 }
 
@@ -31,6 +32,7 @@ class LinkedList {
   append(item) {
     if (this.tail) {
       this.tail.next = item;
+      item.prev = this.tail;
       this.tail = item;
       this.length++;
     }
@@ -42,6 +44,7 @@ class LinkedList {
   prepend(item) {
     if (this.head) {
       item.next = this.head;
+      this.head.prev = item;
       this.head = item;
       this.length++;
     } else {
@@ -73,8 +76,11 @@ class LinkedList {
 
 
     let current = this.traverseTo(index - 1);
+
     item.next = current.next;
+    item.prev = current;
     current.next = item;
+    item.next.prev = item;
     this.length++;
   }
 
@@ -83,15 +89,20 @@ class LinkedList {
       this.head = this.head.next;
       if (this.length == 1)
         this.tail = this.head;
+      this.head.prev = null;
       this.length--;
       return;
     }
 
-    let current = this.traverseTo(index - 1);
+    let current = this.traverseTo(index);
 
-    current.next = current.next.next;
-    if (null == current.next) {
-      this.tail = current;
+    current.prev.next = current.next;
+    if (current.next) {
+      current.next.prev = current.prev;
+    }
+
+    if (this.length - 1 == index) {
+      this.tail = current.prev;
     }
 
     this.length--;
@@ -109,5 +120,16 @@ class LinkedList {
 
     return values;
   }
-}
 
+  print() {
+    let current = this.head;
+    while (current) {
+      console.log("%d --> ( %d ) --> %d",
+        current.prev ? current.prev.value : undefined,
+        current.value,
+        current.next ? current.next.value : undefined);
+
+      current = current.next;
+    }
+  }
+}
