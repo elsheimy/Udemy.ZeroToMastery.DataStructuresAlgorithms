@@ -87,10 +87,15 @@ class LinkedList {
   delete(index) {
     if (0 == index) { // head
       this.head = this.head.next;
+      this.length--;
+
       if (this.length == 1)
         this.tail = this.head;
-      this.head.prev = null;
-      this.length--;
+      else if (this.length == 0)
+        this.tail = null;
+      else
+        this.head.prev = null;
+
       return;
     }
 
@@ -124,10 +129,10 @@ class LinkedList {
   reverse() {
     let current = this.tail;
     while (current) {
-      let tmpPrev=  current.prev;
+      let tmpPrev = current.prev;
       let tmpNext = current.next;
 
-      current.next=  current.prev;
+      current.next = current.prev;
       current.prev = tmpNext;
 
       current = tmpPrev;
@@ -162,4 +167,10 @@ lst.append(new LinkedListItem(5));
 lst.prepend(new LinkedListItem(1));
 lst.insert(1, new LinkedListItem(2));
 lst.reverse();
+lst.delete(0);
+lst.delete(0);
+lst.delete(0);
+lst.delete(0);
+lst.delete(0);
+console.log(lst);
 console.log(lst.values());
