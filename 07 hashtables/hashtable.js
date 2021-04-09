@@ -7,7 +7,7 @@ class Hashtable {
     let hash = 0;
 
     for (let i = 0; i < key.length; i++) {
-      hash = (hash + key.charAtCode(i) * i) % this.data.length;
+      hash = (hash + key.charCodeAt(i) * i) % this.data.length;
     }
 
     return hash;
@@ -20,8 +20,6 @@ class Hashtable {
     }
 
     this.data[address].push([key, value]);
-
-    console.log(this.data);
   }
 
 
@@ -60,5 +58,7 @@ class Hashtable {
     return keysArr;
   }
   remove(key) {
+    let address = this._hash(key);
+    this.data[address] = undefined;
   }
 }
