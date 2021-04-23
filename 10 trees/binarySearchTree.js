@@ -201,33 +201,119 @@ class BinarySearchTree {
   }
 
 
-  traversePreorder() {
+
+
+  // Preorder Depth-First-Search (DFS) traverse
+  traversePreorderDepthFirst() {
     this._internalTraversePreorder(this.root, '', 0);
   }
 
-  _internalTraversePreorder(node, prefix, level) {
+  _internalTraversePreorder(node) {
     if (!node)
       return;
 
-    console.log('\t'.repeat(level) + prefix + node.value);
+    console.log( node.value);
 
-    this._internalTraversePreorder(node.left, "L:", level + 1);
-    this._internalTraversePreorder(node.right, "R:", level + 1);
+    this._internalTraversePreorder(node.left);
+    this._internalTraversePreorder(node.right);
+  }
+
+
+
+  // Breadth-First-Search (BFS) traverse
+  traverseBreadthFirst() {
+    this._internalTraverseBreadthFirst();
+  }
+
+  _internalTraverseBreadthFirst() {
+    let nodes = [this.root];
+    let level = 0;
+    while (nodes && nodes.length > 0) {
+      let tmpNodes = [];
+
+      nodes.forEach(function (node) {
+        console.log('\t'.repeat(level) + node.value);
+
+        if (node.left)
+          tmpNodes.push(node.left);
+        if (node.right)
+          tmpNodes.push(node.right);
+      });
+
+      nodes = tmpNodes;
+      level++;
+    }
+  }
+
+
+  // Inorder Depth-First-Search (DFS) traverse
+  traverseInorderDepthFirst() {
+    this._internalTraverseInorder(this.root);
+  }
+  _internalTraverseInorder(node) {
+    if (!node)
+      return;
+
+    if (node.left)
+      this._internalTraverseInorder(node.left);
+
+    console.log(node.value);
+
+    if (node.right)
+      this._internalTraverseInorder(node.right);
+  }
+
+
+
+  // Postorder Depth-First-Search (DFS) traverse
+  traversePostorderDepthFirst() {
+    this._internalTraversePostorder(this.root);
+  }
+  _internalTraversePostorder(node) {
+    if (!node)
+      return;
+
+    if (node.left)
+      this._internalTraversePostorder(node.left);
+
+    if (node.right)
+      this._internalTraversePostorder(node.right);
+
+    console.log(node.value);
+
   }
 }
 
 
 
 let tree = new BinarySearchTree();
-tree.insert(60);
-tree.insert(30);
+tree.insert(9);
+tree.insert(4);
+tree.insert(20);
 tree.insert(1);
-tree.insert(55);
-tree.insert(38);
-tree.insert(44);
+tree.insert(6);
+tree.insert(15);
+tree.insert(170);
+// tree.insert(2);
+// tree.insert(3);
+// tree.insert(5);
+// tree.insert(1);
+// tree.insert(3);
+// tree.insert(5);
+// tree.insert(6);
+// tree.insert(7);
+// tree.insert(8);
+// tree.insert(2);
+// tree.insert(4);
 
-tree.traversePreorder();
+tree.traverseBreadthFirst();
 console.log('');
 
-tree.delete(60);
-tree.traversePreorder();
+tree.traverseInorderDepthFirst();
+console.log('');
+
+
+tree.traversePreorderDepthFirst();
+console.log('');
+tree.traversePostorderDepthFirst();
+console.log('');

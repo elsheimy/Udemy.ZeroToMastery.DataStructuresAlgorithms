@@ -144,7 +144,7 @@ public class BinarySearchTree
         minimum.Left = targetNode.Left; // take over the left side of the deleted target
         if (minimumIsDirectChild == false) // for the right side, if the successor is not a direct child of the target
           minimum.Right = targetNode.Right; // replace with the current right
- 
+
       }
     }
 
@@ -211,21 +211,95 @@ public class BinarySearchTree
     }
   }
 
-
-  public void TraversePreorder()
+  /// <summary>
+  /// Preorder Depth-First-Search (DFS) traverse
+  /// </summary>
+  public void TraversePreorderDepthFirst()
   {
-    InternalTraversePreorder(this.Root, string.Empty, 0);
+    InternalTraversePreorder(this.Root, string.Empty);
   }
 
-  protected void InternalTraversePreorder(Node node, string prefix, int level)
+  protected void InternalTraversePreorder(Node node)
   {
     if (node == null)
       return;
 
-    Console.Write(new string('\t', level) + prefix);
     Console.WriteLine(node.Value);
 
-    InternalTraversePreorder(node.Left, "L:", level + 1);
-    InternalTraversePreorder(node.Right, "R:", level + 1);
+    InternalTraversePreorder(node.Left);
+    InternalTraversePreorder(node.Right);
+  }
+
+
+
+  // Breadth-First-Search (BFS) traverse
+  public void TraverseBreadthFirst()
+  {
+    this.InternalTraverseBfs();
+  }
+
+  protected void InternalTraverseBfs()
+  {
+    var nodes = new Node[] { this.Root };
+    var level = 0;
+    while (nodes != null && nodes.Length > 0)
+    {
+      List<Node> tmpNodes = new List<Node>();
+
+      foreach (var node in nodes)
+      {
+        Console.WriteLine(new String('\t', level) + node.Value.ToString());
+
+        if (node.Left != null)
+          tmpNodes.Add(node.Left);
+        if (node.Right != null)
+          tmpNodes.Add(node.Right);
+      };
+
+      nodes = tmpNodes.ToArray();
+      level++;
+    }
+  }
+
+
+  // Inorder Depth-First-Search (DFS) traverse
+  public void TraverseInorderDepthFirst()
+  {
+    this.InternalTraverseInorder(this.Root);
+  }
+  public void InternalTraverseInorder(Node node)
+  {
+    if (null == node)
+      return;
+
+    if (node.Left != null)
+      this.InternalTraverseInorder(node.Left);
+
+    Console.WriteLine(node.Value);
+
+    if (node.Right != null)
+      this.InternalTraverseInorder(node.Right);
+  }
+
+
+
+  // Postorder Depth-First-Search (DFS) traverse
+  public void TraversePostorderDepthFirst()
+  {
+    this.InternalTraversePostorder(this.Root);
+  }
+  public void InternalTraversePostorder(Node node)
+  {
+    if (null == node)
+      return;
+
+    if (node.Left != null)
+      this.InternalTraversePostorder(node.Left);
+
+    if (node.Right != null)
+      this.InternalTraversePostorder(node.Right);
+
+    Console.WriteLine(node.Value);
+
   }
 }
